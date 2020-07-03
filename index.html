@@ -9,75 +9,89 @@
       integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
     <script src="assets/js/main.js" defer></script>
+    <link rel="stylesheet" href="assets/css/reset.css">
     <link rel="stylesheet" href="assets/css/style.css">
   </head>
 
   <body>
-    <header class="today-container">
-      <h1 id="city"></h1>
-      <h1 id="current-temp"></h1>
-      <h1 id="today-high-temp"></h1>
-      <h1 id="today-low-temp"></h1>
-      <h2 id="current-weather"></h2>
-      <img id="current-icon" src="" alt="weather icon">
-      <h3 id="today"></h3>
-      <h4 id="current-humidity"></h4>
-      <h4 id="current-wind"></h4>
-      <h4 id="current-uv"></h4>
-    </header>
 
-    <main class="forecast-container">
-      <section id="1">
-        <h3 class='day'></h3>
-        <h4 class="high-temp"></h4>
-        <h4 class="low-temp"></h4>
-        <h4 class="weather"></h4>
-        <img class="weather-icon" src="" alt="weather icon">
-        <h4 class="humidity"></h4>
-      </section>
-      <section id="2">
-        <h3 class='day'></h3>
-        <h4 class="high-temp"></h4>
-        <h4 class="low-temp"></h4>
-        <h4 class="weather"></h4>
-        <img class="weather-icon" src="" alt="weather icon">
-        <h4 class="humidity"></h4>
-      </section>
-      <section id="3">
-        <h3 class='day'></h3>
-        <h4 class="high-temp"></h4>
-        <h4 class="low-temp"></h4>
-        <h4 class="weather"></h4>
-        <img class="weather-icon" src="" alt="weather icon">
-        <h4 class="humidity"></h4>
-      </section>
-      <section id="4">
-        <h3 class='day'></h3>
-        <h4 class="high-temp"></h4>
-        <h4 class="low-temp"></h4>
-        <h4 class="weather"></h4>
-        <img class="weather-icon" src="" alt="weather icon">
-        <h4 class="humidity"></h4>
-      </section>
-      <section id="5">
-        <h3 class='day'></h3>
-        <h4 class="high-temp"></h4>
-        <h4 class="low-temp"></h4>
-        <h4 class="weather"></h4>
-        <img class="weather-icon" src="" alt="weather icon">
-        <h4 class="humidity"></h4>
-      </section>
+    <nav id="navbar">
+      <form class="add-city">
+        <label for="city-input" class="label">Add Cities</label>
+        <input id="city-input" type="text" placeholder="Add City">
+        <button id="button" type="submit">Add</button>
+      </form>
+
+      <ul id="city-list">
+      </ul>
+    </nav>
+
+    <main class="main-wrapper">
+      <div class="card">
+        <h2 id="city"></h2>
+        <h1 id="current-temp"></h1>
+        <h2 id="today-high-temp"></h2>
+        <h2 id="today-low-temp"></h2>
+        <div id="current-weather-div">
+          <h2 id="current-weather"></h2>
+          <img id="current-icon" src="" alt="weather icon">          
+        </div>
+        <h3 id="today"></h3>
+        <h4 id="current-humidity"></h4>
+        <h4 id="current-wind"></h4>
+        <h4 id="current-uv"></h4>
+      </div>
+
+      <div class="forecast-wrapper">
+        <section class="forecast-card" id="1">
+          <h3 class='day'></h3>
+          <h4 class="high-temp"></h4>
+          <h4 class="low-temp"></h4>
+          <h4 class="weather"></h4>
+          <img class="weather-icon" src="" alt="weather icon">
+          <h4 class="humidity"></h4>
+        </section>
+        <section class="forecast-card" id="2">
+          <h3 class='day'></h3>
+          <h4 class="high-temp"></h4>
+          <h4 class="low-temp"></h4>
+          <h4 class="weather"></h4>
+          <img class="weather-icon" src="" alt="weather icon">
+          <h4 class="humidity"></h4>
+        </section>
+        <section class="forecast-card" id="3">
+          <h3 class='day'></h3>
+          <h4 class="high-temp"></h4>
+          <h4 class="low-temp"></h4>
+          <h4 class="weather"></h4>
+          <img class="weather-icon" src="" alt="weather icon">
+          <h4 class="humidity"></h4>
+        </section>
+        <section class="forecast-card" id="4">
+          <h3 class='day'></h3>
+          <h4 class="high-temp"></h4>
+          <h4 class="low-temp"></h4>
+          <h4 class="weather"></h4>
+          <img class="weather-icon" src="" alt="weather icon">
+          <h4 class="humidity"></h4>
+        </section>
+        <section class="forecast-card" id="5">
+          <h3 class='day'></h3>
+          <h4 class="high-temp"></h4>
+          <h4 class="low-temp"></h4>
+          <h4 class="weather"></h4>
+          <img class="weather-icon" src="" alt="weather icon">
+          <h4 class="humidity"></h4>
+        </section>
+      </div>
+
+      <footer class="footer">
+        <!-- Reference Openweather -->
+        <p>Weather data from OpenWeatherMap API</p>
+      </footer>
     </main>
 
-    <aside class="cities-sidebar">
-      <ul class="cities">
-        <!-- dynamically generated list -->
-      </ul>
-    </aside>
 
-    <footer class="footer">
-      <!-- Reference Openweather -->
-    </footer>
 
   </body>
 
