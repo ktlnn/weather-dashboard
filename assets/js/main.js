@@ -50,6 +50,7 @@ function oneCall(lat, lon) {
   let units = "&units=imperial";
   let oneCallQueryURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}${units}&exclude=minutely,hourly&appid=${apikey}`;
   let weatherIconURL = "https://openweathermap.org/img/w/";
+  let backgroundImgURL = 'linear-gradient(rgba(128,128,128,0.25),rgba(128,128,128,0.25)), url("./assets/img/';
   
   $.ajax({
     url: oneCallQueryURL,
@@ -59,7 +60,11 @@ function oneCall(lat, lon) {
     $("#current-temp").text(response.current.temp.toFixed(0) + "\xB0F");
     $("#today-high-temp").text("High " + response.daily[0].temp.max.toFixed(0) + "\xB0F");
     $("#today-low-temp").text("Low " + response.daily[0].temp.min.toFixed(0) + "\xB0F");
+    backgroundImgURL += response.current.weather[0].main.toLowerCase()+'.jpg")';
+    console.log(backgroundImgURL);
     $("#current-weather").text(response.current.weather[0].main);
+    $('.card').css("background-image", backgroundImgURL);
+    console.log($('.card').css("background-image"));
     weatherIconURL += response.current.weather[0].icon + ".png";
     $("#current-icon").attr("src", weatherIconURL);
     $("#current-humidity").text("Humidity " + response.current.humidity + "% RH");
