@@ -1,36 +1,80 @@
 body{
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Roboto', Helvetica, sans-serif;
   background-color: #0ca8eb;
+  box-sizing: border-box;
+  color: #ffffff;
 }
 
 h1 {
-  color: #ffffff;
-  font-size: 2em;
-  font-weight: 900;
+  font-size: 60px;
+  padding: 16px;
 }
 
 h2 {
-  color: #ffffff;
-  font-size: 1.5em;
-  font-weight: 700;
+  font-size: 24px;
+  padding 10px;
 }
 
 h3 {
-  color: #ffffff;
-  font-size: 1.2em;
-  font-weight: 600;
+  font-size: 20px;
+  padding-top: 8px;
 }
 
 h4{
-  color: #ffffff;
-  font-size: 1em;
-  font-weight: 600;
+  font-size: 16px;
+  padding-top: 5px;
 }
 
 li {
   cursor: pointer;
 }
 
+li:hover {
+  transform: scale(1.05);
+}
+
+p {
+  font-size: 12px;
+}
+
+#navbar{
+  margin: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cities-wrapper {
+  text-align: right;
+  width: fit-content;
+}
+
+.cities-btn,
+#button {
+  font-size: 14px;
+  background-color: #0ca8eb;
+  color: white;
+  border: 1px solid white;
+  border-radius: 8px;
+  padding: 2px;
+  cursor: pointer;
+}
+
+#city-list {
+  display: none;
+  position: absolute;
+  right: 16px;
+  background-color: #75e4a7;
+  padding: 0.75em;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.cities-btn:hover + #city-list,
+.cities-btn:active + #city-list {
+  display: block;
+}
 
 .main-wrapper {
   width: 100%;
@@ -45,3 +89,47 @@ li {
   text-align: center;
 }
 
+#current-weather-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.forecast-wrapper{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 1.5em;
+}
+
+.forecast-card {
+  display: block;
+  margin: 0 1.5em;
+}
+
+.weather-wrapper {
+  float: right;
+  text-align: center;
+}
+
+.uv-low {
+  background-color: greenyellow;
+}
+
+.uv-mid{
+  background-color: orange;
+}
+
+.uv-high{
+  background-color: orangered;
+}
+
+.footer {
+  text-align: center;
+}
+
+.footer a,
+.footer a:active {
+  text-decoration: none;
+}

@@ -1,87 +1,98 @@
+// Global variables
 var apikey = "20429f05beb7b7ddca41ce6d64ba493b";
-const defaultCity = "Bujumbura";
-var imperialUnits = "&units=imperial";
-var cities;
-// var metricUnits = "&units-metric";
+var cities; // an array
 
 $(document).ready(function () {
-  displayWeather(defaultCity);
+  // setup cities array based on whether if it was previously stored or not. If not previously stored push a defaultCity into the array
+  getSavedCities();
+  console.log(cities);
+  // display weather of last city in cities array
+  displayWeather(cities[cities.length - 1].name);
 
+  // click event to add a city, display weather of tht city and save that city
   $("#button").on("click", function (event) {
     event.preventDefault();
     let cityInput = $("#city-input").val();
-    // console.log(cityInput);
     displayWeather(cityInput);
   });
 
+  // click event to display weather from list of previously saved cities
   $("#city-list").on("click", "li", function (event) {
-    // console.log($(event.target).attr("id"));
     let name = $(event.target).attr("id");
     displayWeather(name);
   });
 });
 
+// ajax GET request to OWM Current Weather API based on city name
 function displayWeather(city) {
-  let queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apikey;
-  // console.log(queryURL);
+  // display today's date using moment.js API
   let today = moment().format("dddd LL");
   $("#today").text(today);
+
+  let queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apikey;
+
   $.ajax({
     url: queryURL,
     method: "GET",
-  }).then(
-    function (response) {
-      storeCityName(response.name, response.sys.country);
-      // based on city, get lat and lon to be used for OWM One Call API
-      $("#city").text(response.name + ", " + response.sys.country);
-      oneCall(response.coord.lat, response.coord.lon);
-    },
-    function () {
-      alert("City not found"); // alert if Promise is rejected
-    }
-  );
+  }).then(function (response) {
+    // if response is valid, store city name and country
+    storeCityName(response.name, response.sys.country);
+    // based on city, get lat and lon to be used for OWM One Call API (which does not support city names)
+    $("#city").text(response.name + ", " + response.sys.country);
+    oneCall(response.coord.lat, response.coord.lon);
+  }, function () {  // alert if Promise is rejected
+    alert("City not found"); 
+  });
 }
 
+// ajax 'GET' request to OWM OneCall API
 function oneCall(lat, lon) {
-  let oneCallQueryURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}${imperialUnits}&exclude=minutely,hourly&appid=${apikey}`;
+  let units = "&units=imperial";
+  let oneCallQueryURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}${units}&exclude=minutely,hourly&appid=${apikey}`;
   let weatherIconURL = "https://openweathermap.org/img/w/";
+  
   $.ajax({
     url: oneCallQueryURL,
     method: "GET",
   }).then(function (response) {
-    // console.log(queryURL);
-    // console.log(response);
+    // generate HTML from response
     $("#current-temp").text(response.current.temp.toFixed(0) + "\xB0F");
     $("#today-high-temp").text("High " + response.daily[0].temp.max.toFixed(0) + "\xB0F");
     $("#today-low-temp").text("Low " + response.daily[0].temp.min.toFixed(0) + "\xB0F");
     $("#current-weather").text(response.current.weather[0].main);
     weatherIconURL += response.current.weather[0].icon + ".png";
-    // console.log(weatherIconURL);
     $("#current-icon").attr("src", weatherIconURL);
     $("#current-humidity").text("Humidity " + response.current.humidity + "% RH");
     let direction = getWindDirectionString(response.current.wind_deg);
-    // console.log(response.wind.deg);
-    // console.log(windDirection);
-    $("#current-wind").text(direction + response.current.wind_speed + " mph");
+    $("#current-wind").text(direction + " Wind " + response.current.wind_speed + " mph");
     $("#current-uv").text(" UV Index " + response.current.uvi);
+
+    if (response.current.uvi < 3) {
+      $('#current-uv').attr("class", "uv-low");
+    } else if (response.current.uvi >= 3 && response.current.uvi <8) {
+      $('#current-uv').attr("class", "uv-mid");
+    } else if (response.current.uvi >= 8) {
+      $('#current-uv').attr("class", "uv-high");
+    }
 
     getForecast(response);
   });
 }
 
+// generate HTML for 5 day forecast 
 function getForecast(response) {
   for (let i = 1; i < 6; i++) {
     let day = moment().add(i, "d").format("dddd");
-    // console.log(day);
     $("#" + i + ">.day").text(day);
     $("#" + i + ">.high-temp").text("High " + response.daily[i].temp.max.toFixed(0) + "\xB0F");
     $("#" + i + ">.low-temp").text("Low " + response.daily[i].temp.min.toFixed(0) + "\xB0F");
-    $("#" + i + ">.weather").text(response.daily[i].weather[0].main);
-    $("#" + i + ">.weather-icon").attr("src", "https://openweathermap.org/img/w/" + response.daily[i].weather[0].icon + ".png");
+    $("#" + i + ">div>.weather").text(response.daily[i].weather[0].main);
+    $("#" + i + ">div>.weather-icon").attr("src", "https://openweathermap.org/img/w/" + response.daily[i].weather[0].icon + ".png");
     $("#" + i + ">.humidity").text("Humidity " + response.daily[i].humidity + "% RH");
   }
 }
 
+// convert ajax 'GET' response object's wind.deg to cardinal directions
 function getWindDirectionString(degrees) {
   let windDirection = "";
   switch (true) {
@@ -139,35 +150,34 @@ function getWindDirectionString(degrees) {
   return windDirection;
 }
 
+// store city into localStorage
 function storeCityName(cityName, countryName) {
   let city = { name: cityName, country: countryName };
 
-  $("#city-list").empty();
-  // iflocalStorage is empty, setItem first
-  if (localStorage.getItem("cities") === null) {
-    cities = [];
+  // if city object does not exist in the cities array, then push it. Else do nothing.
+  let j = cities.findIndex(function (thisCity) {
+    return thisCity.name === cityName;
+  });
+  if (j < 0) {
     cities.push(city);
     localStorage.setItem("cities", JSON.stringify(cities));
-    // console.log("set");
-  } else {
-    // if localStorage is not empty, getItem first
-    cities = JSON.parse(localStorage.getItem("cities"));
-    // console.log("get");
-    // check if city already exists in the cities array using findIndex. If it doesn't, push it into the array
-    let j = cities.findIndex(function (city) {
-      return city.name === cityName;
-    });
-    if (j < 0) {
-      cities.push(city);
-      localStorage.setItem("cities", JSON.stringify(cities));
-    }
   }
-
-  // display saved cities
+  
+  // refresh #city-list UL entries
+  $("#city-list").empty();
   for (let i = 0; i < cities.length; i++) {
-    // console.log(i);
     $("#city-list").prepend(`<li id="${cities[i].name}">${cities[i].name}, ${cities[i].country}</li>`);
   }
 }
 
-
+// determine if cities array has been previously stored or not
+function getSavedCities() {
+  const defaultCity = { name: "Bujumbura", country: "BI" };
+  // if localStorage is empty, add a default city into the cities array for display
+  if (localStorage.getItem("cities") === null) {
+    cities = [defaultCity];
+  } else {
+    // if localStorage is not empty, get stored cities array
+    cities = JSON.parse(localStorage.getItem("cities"));
+  }
+}
