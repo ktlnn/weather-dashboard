@@ -5,38 +5,56 @@ var cities; // an array
 $(document).ready(function () {
   // setup cities array based on whether if it was previously stored or not. If not previously stored push a defaultCity into the array
   getSavedCities();
-  console.log(cities);
-  // display weather of last city in cities array
-  displayWeather(cities[cities.length - 1].name);
+  // display weather of last city in cities array using City ID query
+  displayWeather(`id=${cities[cities.length - 1].id}`);
 
   // click event to add a city, display weather of tht city and save that city
   $("#button").on("click", function (event) {
     event.preventDefault();
-    let cityInput = $("#city-input").val();
-    displayWeather(cityInput);
+    // query using City Name 
+    let cityName = 'q=' + $("#city-input").val();
+    displayWeather(cityName);
   });
 
   // click event to display weather from list of previously saved cities
   $("#city-list").on("click", "li", function (event) {
-    let name = $(event.target).attr("id");
-    displayWeather(name);
+    let cityID = 'id=' + $(event.target).attr("id");
+    // console.log("li click");
+    displayWeather(cityID);
   });
+
+  // click event to delete city rom the cities array when the delete button is clicked
+  $('#city-list').on("click", "span", function (event) {
+    event.stopPropagation();
+    // console.log("del click");
+    // console.log(event.target);
+    let cityID = $(event.target).parent().attr("id");
+    // console.log(cityID);
+    let j = cities.findIndex(function (thisCity) {
+      return thisCity.id === cityID;
+     });
+    cities.splice(j, 1);
+    localStorage.setItem("cities", JSON.stringify(cities));
+    refreshCityList();
+  });
+
 });
 
 // ajax GET request to OWM Current Weather API based on city name
-function displayWeather(city) {
+function displayWeather(cityParam) {
   // display today's date using moment.js API
   let today = moment().format("dddd LL");
   $("#today").text(today);
 
-  let queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apikey;
+  let queryURL = "https://api.openweathermap.org/data/2.5/weather?" + cityParam + "&appid=" + apikey;
 
   $.ajax({
     url: queryURL,
     method: "GET",
   }).then(function (response) {
+    console.log(response);
     // if response is valid, store city name and country
-    storeCityName(response.name, response.sys.country);
+    storeCityName(response.name, response.sys.country, response.id);
     // based on city, get lat and lon to be used for OWM One Call API (which does not support city names)
     $("#city").text(response.name + ", " + response.sys.country);
     oneCall(response.coord.lat, response.coord.lon);
@@ -61,10 +79,10 @@ function oneCall(lat, lon) {
     $("#today-high-temp").text("High " + response.daily[0].temp.max.toFixed(0) + "\xB0F");
     $("#today-low-temp").text("Low " + response.daily[0].temp.min.toFixed(0) + "\xB0F");
     backgroundImgURL += response.current.weather[0].main.toLowerCase()+'.jpg")';
-    console.log(backgroundImgURL);
+    // console.log(backgroundImgURL);
     $("#current-weather").text(response.current.weather[0].main);
     $('.card').css("background-image", backgroundImgURL);
-    console.log($('.card').css("background-image"));
+    // console.log($('.card').css("background-image"));
     weatherIconURL += response.current.weather[0].icon + ".png";
     $("#current-icon").attr("src", weatherIconURL);
     $("#current-humidity").text("Humidity " + response.current.humidity + "% RH");
@@ -156,33 +174,40 @@ function getWindDirectionString(degrees) {
 }
 
 // store city into localStorage
-function storeCityName(cityName, countryName) {
-  let city = { name: cityName, country: countryName };
+function storeCityName(cityName, countryName, cityID) {
+  let city = { name: cityName, country: countryName, id: cityID };
 
   // if city object does not exist in the cities array, then push it. Else do nothing.
   let j = cities.findIndex(function (thisCity) {
-    return thisCity.name === cityName;
+    return thisCity.id === cityID;
   });
   if (j < 0) {
     cities.push(city);
     localStorage.setItem("cities", JSON.stringify(cities));
   }
-  
-  // refresh #city-list UL entries
-  $("#city-list").empty();
-  for (let i = 0; i < cities.length; i++) {
-    $("#city-list").prepend(`<li id="${cities[i].name}">${cities[i].name}, ${cities[i].country}</li>`);
-  }
+  refreshCityList();
 }
 
 // determine if cities array has been previously stored or not
 function getSavedCities() {
-  const defaultCity = { name: "Bujumbura", country: "BI" };
-  // if localStorage is empty, add a default city into the cities array for display
+  const defaultCity = { name: "Bujumbura", country: "BI", id: 425378 };
+  // if localStorage has no record of cities, add create cities array with defaultCity as first entry
   if (localStorage.getItem("cities") === null) {
     cities = [defaultCity];
+  } else if (cities === undefined) {
+  // if i delete all the entries in the cities array, it becomes undefined. I will need to redeclare the cities array.
+    cities = [defaultCity];
   } else {
-    // if localStorage is not empty, get stored cities array
+  // if localStorage is not empty, get stored cities array
     cities = JSON.parse(localStorage.getItem("cities"));
+  }
+}
+
+function refreshCityList() {
+  // refresh #city-list UL entries
+  $("#city-list").empty();
+  for (let i = 0; i < cities.length; i++) {
+    $("#city-list").prepend(`<li id="${cities[i].id}">${cities[i].name}, ${cities[i].country}</li>`);
+    $(`#${cities[i].id}`).prepend('<span id="span'+i+'" class="delete-btn">&#x2421</span>');
   }
 }
