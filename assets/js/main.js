@@ -42,17 +42,16 @@ $(document).ready(function () {
 
 // ajax GET request to OWM Current Weather API based on city name
 function displayWeather(cityParam) {
+  let queryURL = "https://api.openweathermap.org/data/2.5/weather?" + cityParam + "&appid=" + apikey;
+  
   // display today's date using moment.js API
   let today = moment().format("dddd LL");
   $("#today").text(today);
-
-  let queryURL = "https://api.openweathermap.org/data/2.5/weather?" + cityParam + "&appid=" + apikey;
 
   $.ajax({
     url: queryURL,
     method: "GET",
   }).then(function (response) {
-    console.log(response);
     // if response is valid, store city name and country
     storeCityName(response.name, response.sys.country, response.id);
     // based on city, get lat and lon to be used for OWM One Call API (which does not support city names)
@@ -194,8 +193,8 @@ function getSavedCities() {
   // if localStorage has no record of cities, add create cities array with defaultCity as first entry
   if (localStorage.getItem("cities") === null) {
     cities = [defaultCity];
-  } else if (cities === undefined) {
-  // if i delete all the entries in the cities array, it becomes undefined. I will need to redeclare the cities array.
+  } else if (JSON.parse(localStorage.getItem("cities"))[0]===undefined) {
+  // if i delete all the entries in the cities array, it becomes undefined. I will define the array with defaultCity.
     cities = [defaultCity];
   } else {
   // if localStorage is not empty, get stored cities array
