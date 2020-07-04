@@ -11,7 +11,7 @@ $(document).ready(function () {
   // click event to add a city, display weather of tht city and save that city
   $("#button").on("click", function (event) {
     event.preventDefault();
-    // query using City Name 
+    // query using City Name
     let cityName = 'q=' + $("#city-input").val();
     displayWeather(cityName);
   });
@@ -42,7 +42,7 @@ $(document).ready(function () {
 // ajax GET request to OWM Current Weather API based on city name
 function displayWeather(cityParam) {
   let queryURL = "https://api.openweathermap.org/data/2.5/weather?" + cityParam + "&appid=" + apikey;
-  
+
   // display today's date using moment.js API
   let today = moment().format("dddd LL");
   $("#today").text(today);
@@ -57,7 +57,7 @@ function displayWeather(cityParam) {
     $("#city").text(response.name + ", " + response.sys.country);
     oneCall(response.coord.lat, response.coord.lon);
   }, function () {  // alert if Promise is rejected
-    alert("City not found"); 
+    alert("City not found");
   });
 }
 
@@ -66,8 +66,8 @@ function oneCall(lat, lon) {
   let units = "&units=imperial";
   let oneCallQueryURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}${units}&exclude=minutely,hourly&appid=${apikey}`;
   let weatherIconURL = "https://openweathermap.org/img/w/";
-  let backgroundImgURL = 'linear-gradient(rgba(128,128,128,0.25),rgba(128,128,128,0.25)), url("./assets/img/';
-  
+  let backgroundImgURL = 'linear-gradient(rgba(128,128,128,0.15),rgba(128,128,128,0.15)), url("./assets/img/';
+
   $.ajax({
     url: oneCallQueryURL,
     method: "GET",
@@ -100,7 +100,7 @@ function oneCall(lat, lon) {
   });
 }
 
-// generate HTML for 5 day forecast 
+// generate HTML for 5 day forecast
 function getForecast(response) {
   for (let i = 1; i < 6; i++) {
     let day = moment().add(i, "d").format("dddd");
