@@ -94,7 +94,7 @@ p {
   overflow: scroll;
 }
 
-.cities-btn:hover + #city-list,
+.cities-wrapper:hover #city-list,
 #city-list:hover {
   display: block;
 }
