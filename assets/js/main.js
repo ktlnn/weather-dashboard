@@ -19,25 +19,24 @@ $(document).ready(function () {
   // click event to display weather from list of previously saved cities
   $("#city-list").on("click", "li", function (event) {
     let cityID = 'id=' + $(event.target).attr("id");
-    // console.log("li click");
     displayWeather(cityID);
   });
 
   // click event to delete city rom the cities array when the delete button is clicked
   $('#city-list').on("click", "span", function (event) {
-    event.stopPropagation();
-    // console.log("del click");
+    event.stopPropagation(); // prevent bubbling the click to parent li
     // console.log(event.target);
     let cityID = $(event.target).parent().attr("id");
     // console.log(cityID);
+    // console.log(typeof cityID); returns string so i need to convert it to number
     let j = cities.findIndex(function (thisCity) {
-      return thisCity.id === cityID;
-     });
+      return thisCity.id === parseInt(cityID);
+    });
+    console.log(j);
     cities.splice(j, 1);
     localStorage.setItem("cities", JSON.stringify(cities));
     refreshCityList();
   });
-
 });
 
 // ajax GET request to OWM Current Weather API based on city name
@@ -180,6 +179,7 @@ function storeCityName(cityName, countryName, cityID) {
   let j = cities.findIndex(function (thisCity) {
     return thisCity.id === cityID;
   });
+  console.log(j);
   if (j < 0) {
     cities.push(city);
     localStorage.setItem("cities", JSON.stringify(cities));
@@ -207,6 +207,6 @@ function refreshCityList() {
   $("#city-list").empty();
   for (let i = 0; i < cities.length; i++) {
     $("#city-list").prepend(`<li id="${cities[i].id}">${cities[i].name}, ${cities[i].country}</li>`);
-    $(`#${cities[i].id}`).prepend('<span id="span'+i+'" class="delete-btn">&#x2421</span>');
+    $(`#${cities[i].id}`).prepend('<span id="span'+i+'" class="delete-btn">DEL</span>');
   }
 }
