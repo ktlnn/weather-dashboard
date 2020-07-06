@@ -27,17 +27,18 @@ h4{
 
 li {
   cursor: pointer;
+  padding: 8px 10px;
 }
 
 .delete-btn {
   display: none;
-  color: orangered;
-  border: 1px solid orangered;
-  padding-right: 5px;
-  padding-left: 5px;
+  color: white;
+  border: 1px solid #ff7a5e;
+  border-radius: 2px;
+  padding: 5px;
   margin-right: 10px;
-  font-size: 14px;
-  background-color: lightgray;
+  font-size: 10px;
+  background-color:  #ff7a5e;
 }
 
 li:hover {
@@ -49,7 +50,7 @@ li:hover .delete-btn {
 }
 
 .delete-btn:hover {
-  transform: scale(1.1);
+  transform: scale(1.15);
 }
 
 p {
@@ -75,9 +76,10 @@ p {
   background-color: rgb(41, 138, 198);
   color: white;
   border: 1px solid white;
-  border-radius: 8px;
-  padding: 2px;
+  border-radius: 5px;
+  padding: 10px;
   cursor: pointer;
+  margin-left: 10px;
 }
 
 #city-list {
@@ -85,13 +87,20 @@ p {
   position: absolute;
   right: 16px;
   background-color:rgb(41, 138, 198);
-  padding: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   max-height: 450px;
   min-width: 150px;
   font-size: 18px;
   z-index: 1;
   overflow: scroll;
+}
+
+#city-input{
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 5px;
 }
 
 .cities-wrapper:hover #city-list,
@@ -214,6 +223,13 @@ p {
     align-items: flex-end;
   }
 
+  .add-city{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+
 
   .main-wrapper {
     width: 80%;
@@ -245,8 +261,17 @@ p {
   }
 
   #button {
-    border: none;
     background-color: rgb(41, 138, 198);
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-left: 0px;
+  }
+
+  #city-input {
+    margin-top: 10px;
+    width: 145px;
+    text-align: right;
+    margin-right: 10px;
   }
 
 }

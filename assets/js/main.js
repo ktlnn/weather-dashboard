@@ -207,6 +207,6 @@ function refreshCityList() {
   $("#city-list").empty();
   for (let i = 0; i < cities.length; i++) {
     $("#city-list").prepend(`<li id="${cities[i].id}">${cities[i].name}, ${cities[i].country}</li>`);
-    $(`#${cities[i].id}`).prepend('<span id="span'+i+'" class="delete-btn">DEL</span>');
+    $(`#${cities[i].id}`).prepend('<span id="span'+i+'" class="delete-btn">REMOVE</span>');
   }
 }
