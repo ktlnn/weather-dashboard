@@ -1,6 +1,6 @@
 body{
   font-family: 'Roboto', Helvetica, sans-serif;
-  background-color: #4f4f4f;
+  background-color: #979797;
   box-sizing: border-box;
   color: #ffffff;
 }
@@ -57,7 +57,7 @@ p {
   font-size: 12px;
 }
 
-#navbar{
+.navbar{
   margin: 16px;
   display: flex;
   flex-direction: row;
@@ -70,8 +70,8 @@ p {
   overflow: scroll;
 }
 
-.cities-btn,
-#button {
+#cities-btn,
+#search-btn {
   font-size: 14px;
   background-color: rgb(41, 138, 198);
   color: white;
@@ -89,7 +89,7 @@ p {
   background-color:rgb(41, 138, 198);
   padding-top: 10px;
   padding-bottom: 10px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+
   max-height: 450px;
   min-width: 150px;
   font-size: 18px;
@@ -181,6 +181,32 @@ p {
   text-decoration: none;
 }
 
+.modal {
+  display: none;
+  width: 200px;
+  position: absolute;
+  left: calc(50vw - 120px);
+  top: 180px;
+  margin: auto;
+  padding: 20px;
+  z-index: 2;
+  background: #fff46d;
+  text-align: center;
+  box-shadow: 10px 10px 16px 5px rgba(0,0,0,0.3);
+}
+
+.modal p {
+  font-size: 24px;
+  color: #000000;
+}
+
+.close {
+  float: right;
+  color: #000000;
+  font-size: 24px;
+  cursor: pointer;
+}
+
 @media (min-width: 768px){
 
   .forecast-wrapper {
@@ -213,7 +239,7 @@ p {
     justify-content: space-around;
   }
 
-  #navbar {
+  .navbar {
     width: 20%;
     height: 518px;
     display: flex;
@@ -252,7 +278,7 @@ p {
     max-height: inherit;
   }
 
-  .cities-btn {
+  #cities-btn {
     border: none;
     background-color: rgb(41, 138, 198);
     padding-right: 10px;
@@ -260,7 +286,7 @@ p {
     cursor: none;
   }
 
-  #button {
+  #search-btn {
     background-color: rgb(41, 138, 198);
     margin-top: 10px;
     margin-right: 10px;

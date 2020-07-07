@@ -16,14 +16,14 @@
 
   <body>
 
-    <nav id="navbar">
+    <nav class="navbar">
       <form class="add-city">
         <!-- <label for="city-input" class="label"></label> -->
         <input id="city-input" type="text" size="20" placeholder="Search City">
-        <button id="button" type="submit">Search</button>
+        <button id="search-btn" type="submit">Search</button>
       </form>
       <div class="cities-wrapper">
-        <button class="cities-btn">Cities</button>
+        <button id="cities-btn">Cities</button>
         <ul id="city-list">
         </ul>
       </div>
@@ -104,6 +104,12 @@
         <p>Weather data from <a href="https://openweathermap.org/api" target="_blank">OpenWeatherMap API</a></p>
         <p>Weather images courtesy of <a href="https://unsplash.com" target="_blank">Unsplash</a></p>
       </footer>
+
+      <aside class="modal">
+        <span class="close">&times;</span>
+        <p>City Not Found</p>
+      </aside>
+
     </main>
 
   </body>
