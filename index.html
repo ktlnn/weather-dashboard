@@ -1,117 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Dashboard</title>
-    <script src="https://code.jquery.com/jquery-3.5.1.js"
-      integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
-    <script src="assets/js/main.js" defer></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/reset.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Dashboard</title>
+  <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+  <script src="assets/js/main.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/reset.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
 
-  <body>
+<body>
 
-    <nav class="navbar">
-      <form class="add-city">
-        <!-- <label for="city-input" class="label"></label> -->
-        <input id="city-input" type="text" size="20" placeholder="Search City">
-        <button id="search-btn" type="submit">Search</button>
-      </form>
-      <div class="cities-wrapper">
-        <button id="cities-btn">Cities</button>
-        <ul id="city-list">
-        </ul>
+  <nav class="navbar">
+    <form class="add-city">
+      <!-- <label for="city-input" class="label"></label> -->
+      <input id="city-input" type="text" size="20" placeholder="Search City">
+      <button id="search-btn" type="submit">Search</button>
+    </form>
+    <div class="cities-wrapper">
+      <button id="cities-btn">Cities</button>
+      <ul id="city-list">
+      </ul>
+    </div>
+
+  </nav>
+
+  <main class="main-wrapper">
+    <div class="card">
+      <h2 id="city"></h2>
+      <h3 id="today"></h3>
+      <h1 id="current-temp"></h1>
+      <h2 id="today-high-temp"></h2>
+      <h2 id="today-low-temp"></h2>
+      <div id="current-weather-div">
+        <h2 id="current-weather"></h2>
+        <img id="current-icon" src="" alt="weather icon">
       </div>
+      <h4 id="current-humidity"></h4>
+      <h4 id="current-wind"></h4>
+      <h4 id="current-uv"></h4>
+    </div>
 
-    </nav>
-
-    <main class="main-wrapper">
-      <div class="card">
-        <h2 id="city"></h2>
-        <h3 id="today"></h3>
-        <h1 id="current-temp"></h1>
-        <h2 id="today-high-temp"></h2>
-        <h2 id="today-low-temp"></h2>
-        <div id="current-weather-div">
-          <h2 id="current-weather"></h2>
-          <img id="current-icon" src="" alt="weather icon">
+    <div class="forecast-wrapper">
+      <section class="forecast-card" id="1">
+        <h3 class='day'></h3>
+        <div class="weather-wrapper">
+          <h4 class="weather"></h4>
+          <img class="weather-icon" src="" alt="weather icon">
         </div>
-        <h4 id="current-humidity"></h4>
-        <h4 id="current-wind"></h4>
-        <h4 id="current-uv"></h4>
-      </div>
+        <h4 class="high-temp"></h4>
+        <h4 class="low-temp"></h4>
+        <h4 class="humidity"></h4>
+      </section>
+      <section class="forecast-card" id="2">
+        <h3 class='day'></h3>
+        <div class="weather-wrapper">
+          <h4 class="weather"></h4>
+          <img class="weather-icon" src="" alt="weather icon">
+        </div>
+        <h4 class="high-temp"></h4>
+        <h4 class="low-temp"></h4>
+        <h4 class="humidity"></h4>
+      </section>
+      <section class="forecast-card" id="3">
+        <h3 class='day'></h3>
+        <div class="weather-wrapper">
+          <h4 class="weather"></h4>
+          <img class="weather-icon" src="" alt="weather icon">
+        </div>
+        <h4 class="high-temp"></h4>
+        <h4 class="low-temp"></h4>
+        <h4 class="humidity"></h4>
+      </section>
+      <section class="forecast-card" id="4">
+        <h3 class='day'></h3>
+        <div class="weather-wrapper">
+          <h4 class="weather"></h4>
+          <img class="weather-icon" src="" alt="weather icon">
+        </div>
+        <h4 class="high-temp"></h4>
+        <h4 class="low-temp"></h4>
+        <h4 class="humidity"></h4>
+      </section>
+      <section class="forecast-card" id="5">
+        <h3 class='day'></h3>
+        <div class="weather-wrapper">
+          <h4 class="weather"></h4>
+          <img class="weather-icon" src="" alt="weather icon">
+        </div>
+        <h4 class="high-temp"></h4>
+        <h4 class="low-temp"></h4>
+        <h4 class="humidity"></h4>
+      </section>
+    </div>
 
-      <div class="forecast-wrapper">
-        <section class="forecast-card" id="1">
-          <h3 class='day'></h3>
-          <div class="weather-wrapper">
-            <h4 class="weather"></h4>
-            <img class="weather-icon" src="" alt="weather icon">
-          </div>
-          <h4 class="high-temp"></h4>
-          <h4 class="low-temp"></h4>
-          <h4 class="humidity"></h4>
-        </section>
-        <section class="forecast-card" id="2">
-          <h3 class='day'></h3>
-          <div class="weather-wrapper">
-            <h4 class="weather"></h4>
-            <img class="weather-icon" src="" alt="weather icon">
-          </div>
-          <h4 class="high-temp"></h4>
-          <h4 class="low-temp"></h4>
-          <h4 class="humidity"></h4>
-        </section>
-        <section class="forecast-card" id="3">
-          <h3 class='day'></h3>
-          <div class="weather-wrapper">
-            <h4 class="weather"></h4>
-            <img class="weather-icon" src="" alt="weather icon">
-          </div>
-          <h4 class="high-temp"></h4>
-          <h4 class="low-temp"></h4>
-          <h4 class="humidity"></h4>
-        </section>
-        <section class="forecast-card" id="4">
-          <h3 class='day'></h3>
-          <div class="weather-wrapper">
-            <h4 class="weather"></h4>
-            <img class="weather-icon" src="" alt="weather icon">
-          </div>
-          <h4 class="high-temp"></h4>
-          <h4 class="low-temp"></h4>
-          <h4 class="humidity"></h4>
-        </section>
-        <section class="forecast-card" id="5">
-          <h3 class='day'></h3>
-          <div class="weather-wrapper">
-            <h4 class="weather"></h4>
-            <img class="weather-icon" src="" alt="weather icon">
-          </div>
-          <h4 class="high-temp"></h4>
-          <h4 class="low-temp"></h4>
-          <h4 class="humidity"></h4>
-        </section>
-      </div>
+    <footer class="footer">
+      <!-- Reference Openweather -->
+      <p>Weather data from <a href="https://openweathermap.org/api" target="_blank">OpenWeatherMap API</a></p>
+      <p>Weather images courtesy of <a href="https://unsplash.com" target="_blank">Unsplash</a></p>
+    </footer>
 
-      <footer class="footer">
-        <!-- Reference Openweather -->
-        <p>Weather data from <a href="https://openweathermap.org/api" target="_blank">OpenWeatherMap API</a></p>
-        <p>Weather images courtesy of <a href="https://unsplash.com" target="_blank">Unsplash</a></p>
-      </footer>
+    <aside class="modal">
+      <span class="close">&times;</span>
+      <p>City Not Found</p>
+    </aside>
 
-      <aside class="modal">
-        <span class="close">&times;</span>
-        <p>City Not Found</p>
-      </aside>
+  </main>
 
-    </main>
-
-  </body>
+</body>
 
 </html>
