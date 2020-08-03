@@ -39,7 +39,7 @@ $(document).ready(function () {
   });
 
   // click to close modal window
-  $('.close').on('click', function(){
+  $('.close').on('click', function () {
     event.stopPropagation();
     $('.modal').css("display", "none");
   })
@@ -63,7 +63,7 @@ function displayWeather(cityParam) {
     // based on city, get lat and lon to be used for OWM One Call API (which does not support city names)
     $("#city").text(response.name + ", " + response.sys.country);
     oneCall(response.coord.lat, response.coord.lon);
-  }, function () {  // callback function if Promise is rejected
+  }, function () { // callback function if Promise is rejected
     // alert("City not found");
     $('.modal').css("display", "block");
   });
@@ -84,7 +84,7 @@ function oneCall(lat, lon) {
     $("#current-temp").text(response.current.temp.toFixed(0) + "\xB0F");
     $("#today-high-temp").text("High " + response.daily[0].temp.max.toFixed(0) + "\xB0F");
     $("#today-low-temp").text("Low " + response.daily[0].temp.min.toFixed(0) + "\xB0F");
-    backgroundImgURL += response.current.weather[0].main.toLowerCase()+'.jpg")';
+    backgroundImgURL += response.current.weather[0].main.toLowerCase() + '.jpg")';
     // console.log(backgroundImgURL);
     $("#current-weather").text(response.current.weather[0].main);
     $('.card').css("background-image", backgroundImgURL);
@@ -98,7 +98,7 @@ function oneCall(lat, lon) {
 
     if (response.current.uvi < 3) {
       $('#current-uv').attr("class", "uv-low");
-    } else if (response.current.uvi >= 3 && response.current.uvi <8) {
+    } else if (response.current.uvi >= 3 && response.current.uvi < 8) {
       $('#current-uv').attr("class", "uv-mid");
     } else if (response.current.uvi >= 8) {
       $('#current-uv').attr("class", "uv-high");
@@ -181,7 +181,11 @@ function getWindDirectionString(degrees) {
 
 // store city into localStorage
 function storeCityName(cityName, countryName, cityID) {
-  let city = { name: cityName, country: countryName, id: cityID };
+  let city = {
+    name: cityName,
+    country: countryName,
+    id: cityID
+  };
 
   // find if city already exists in cities array
   let j = cities.findIndex(function (thisCity) {
@@ -198,14 +202,18 @@ function storeCityName(cityName, countryName, cityID) {
 
 // determine if cities array has been previously stored or not
 function getSavedCities() {
-  const defaultCity = { name: "Bujumbura", country: "BI", id: 425378 };
+  const defaultCity = {
+    name: "Bujumbura",
+    country: "BI",
+    id: 425378
+  };
   // if localStorage has no record of cities, add create cities array with defaultCity as first entry
   if (localStorage.getItem("cities") === null) {
     cities = [defaultCity];
-  // if i delete all the entries in the cities array, it becomes undefined. I will define the array with defaultCity.
-  } else if (JSON.parse(localStorage.getItem("cities"))[0]===undefined) {
+    // if i delete all the entries in the cities array, it becomes undefined. I will define the array with defaultCity.
+  } else if (JSON.parse(localStorage.getItem("cities"))[0] === undefined) {
     cities = [defaultCity];
-  // if localStorage is not empty, get stored cities array
+    // if localStorage is not empty, get stored cities array
   } else {
     cities = JSON.parse(localStorage.getItem("cities"));
   }
@@ -216,6 +224,6 @@ function refreshCityList() {
   $("#city-list").empty();
   for (let i = 0; i < cities.length; i++) {
     $("#city-list").prepend(`<li id="${cities[i].id}">${cities[i].name}, ${cities[i].country}</li>`);
-    $(`#${cities[i].id}`).prepend('<span id="span'+i+'" class="delete-btn">REMOVE</span>');
+    $(`#${cities[i].id}`).prepend('<span id="span' + i + '" class="delete-btn">REMOVE</span>');
   }
 }
